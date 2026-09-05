@@ -4,7 +4,8 @@ import { useState } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { DataService } from '@/lib/services/dataService'
-import { ArrowRight, CheckCircle2, Mail, MessageSquare, Send, PhoneCall } from 'lucide-react'
+import { Phone, MessageSquare, ArrowUpRight, CheckCircle2, Send } from 'lucide-react'
+import { FacebookIcon } from '@/components/icons/FacebookIcon'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -62,13 +63,13 @@ export default function ContactPage() {
           {/* Header */}
           <div className="max-w-4xl space-y-6 mb-20">
             <span className="font-mono text-xs uppercase tracking-widest text-studio-muted border-l-2 border-studio-accent pl-3 block">
-              // START A PROJECT
+              // SAN3A INQUIRY
             </span>
             <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tightest leading-[0.95] text-studio-fg">
-              INITIATE INQUIRY.
+              LET&apos;S BUILD SOMETHING TOGETHER.
             </h1>
             <p className="text-lg md:text-xl text-studio-muted leading-relaxed font-normal max-w-2xl">
-              Tell us about your project requirements. SAN3A responds directly within 24 hours.
+              Fill out the project inquiry form below or reach out directly to John & George.
             </p>
           </div>
 
@@ -78,15 +79,15 @@ export default function ContactPage() {
             <div className="lg:col-span-7 border border-studio-border bg-studio-surface p-8 sm:p-12 space-y-8">
               
               {submitted ? (
-                <div className="py-12 space-y-6 text-center">
+                <div className="py-12 space-y-6 text-center font-mono">
                   <div className="inline-flex p-4 rounded-full bg-emerald-500/10 text-emerald-500 mb-2">
                     <CheckCircle2 className="w-12 h-12" />
                   </div>
-                  <h2 className="text-3xl font-extrabold tracking-tight text-studio-fg">
+                  <h2 className="text-3xl font-extrabold tracking-tight text-studio-fg font-sans">
                     INQUIRY RECEIVED.
                   </h2>
                   <p className="text-sm text-studio-muted leading-relaxed max-w-md mx-auto">
-                    Thank you, <span className="text-studio-fg font-semibold">{formData.name}</span>. The SAN3A founders have received your inquiry and will respond to <span className="text-studio-fg font-semibold">{formData.email}</span> shortly.
+                    Thank you, <span className="text-studio-fg font-semibold">{formData.name}</span>. John & George have received your inquiry and will respond to <span className="text-studio-fg font-semibold">{formData.email}</span> shortly.
                   </p>
                   <button
                     onClick={() => {
@@ -100,7 +101,7 @@ export default function ContactPage() {
                         description: '',
                       })
                     }}
-                    className="inline-block mt-4 border border-studio-border px-6 py-3 text-xs uppercase tracking-widest font-mono text-studio-muted hover:text-studio-fg"
+                    className="inline-block mt-4 border border-studio-border px-6 py-3 text-xs uppercase tracking-widest text-studio-muted hover:text-studio-fg"
                   >
                     Submit Another Inquiry
                   </button>
@@ -116,8 +117,8 @@ export default function ContactPage() {
 
                   {/* Name & Email */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="font-mono text-xs text-studio-muted uppercase tracking-wider block">
+                    <div className="space-y-2 font-mono">
+                      <label className="text-xs text-studio-muted uppercase tracking-wider block">
                         Your Name *
                       </label>
                       <input
@@ -131,8 +132,8 @@ export default function ContactPage() {
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <label className="font-mono text-xs text-studio-muted uppercase tracking-wider block">
+                    <div className="space-y-2 font-mono">
+                      <label className="text-xs text-studio-muted uppercase tracking-wider block">
                         Email Address *
                       </label>
                       <input
@@ -149,8 +150,8 @@ export default function ContactPage() {
 
                   {/* Phone & Service */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="font-mono text-xs text-studio-muted uppercase tracking-wider block">
+                    <div className="space-y-2 font-mono">
+                      <label className="text-xs text-studio-muted uppercase tracking-wider block">
                         WhatsApp / Phone
                       </label>
                       <input
@@ -158,13 +159,13 @@ export default function ContactPage() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        placeholder="+1 (555) 000-0000"
+                        placeholder="+20 100 000 0000"
                         className="w-full bg-studio-bg border border-studio-border px-4 py-3.5 text-sm text-studio-fg focus:outline-none focus:border-studio-fg transition-colors"
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <label className="font-mono text-xs text-studio-muted uppercase tracking-wider block">
+                    <div className="space-y-2 font-mono">
+                      <label className="text-xs text-studio-muted uppercase tracking-wider block">
                         Primary Service
                       </label>
                       <select
@@ -185,9 +186,9 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  {/* Budget Selection */}
-                  <div className="space-y-2">
-                    <label className="font-mono text-xs text-studio-muted uppercase tracking-wider block">
+                  {/* Budget */}
+                  <div className="space-y-2 font-mono">
+                    <label className="text-xs text-studio-muted uppercase tracking-wider block">
                       Estimated Budget Range
                     </label>
                     <select
@@ -204,8 +205,8 @@ export default function ContactPage() {
                   </div>
 
                   {/* Description */}
-                  <div className="space-y-2">
-                    <label className="font-mono text-xs text-studio-muted uppercase tracking-wider block">
+                  <div className="space-y-2 font-mono">
+                    <label className="text-xs text-studio-muted uppercase tracking-wider block">
                       Project Description *
                     </label>
                     <textarea
@@ -223,7 +224,7 @@ export default function ContactPage() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full bg-studio-fg text-studio-bg py-4 text-xs uppercase tracking-widest font-extrabold flex items-center justify-center space-x-3 border border-studio-fg hover:bg-transparent hover:text-studio-fg transition-all duration-300 disabled:opacity-50"
+                    className="w-full bg-studio-fg text-studio-bg py-4 text-xs font-mono uppercase tracking-widest font-extrabold flex items-center justify-center space-x-3 border border-studio-fg hover:bg-transparent hover:text-studio-fg transition-all duration-300 disabled:opacity-50"
                   >
                     <span>{submitting ? 'Sending Inquiry...' : 'Send Project Inquiry'}</span>
                     <Send className="w-4 h-4" />
@@ -234,62 +235,92 @@ export default function ContactPage() {
 
             </div>
 
-            {/* Right: Direct Communication Channels (5 Cols) */}
-            <div className="lg:col-span-5 space-y-8">
+            {/* Right: Direct Founder Contact Cards (5 Cols) */}
+            <div className="lg:col-span-5 space-y-6 font-mono text-xs">
               
               <div className="border border-studio-border bg-studio-bg p-8 space-y-6">
-                <span className="font-mono text-xs text-studio-accent uppercase tracking-widest block">
+                <span className="text-studio-accent uppercase tracking-widest block font-semibold">
                   // DIRECT CHANNELS
                 </span>
                 
-                <h3 className="text-2xl font-bold tracking-tight text-studio-fg">
-                  NEED A QUICK RESPONSE?
-                </h3>
+                <h2 className="text-2xl font-bold tracking-tight text-studio-fg font-sans">
+                  TALK DIRECTLY TO THE FOUNDERS
+                </h2>
                 
-                <p className="text-sm text-studio-muted leading-relaxed">
-                  For urgent inquiries or instant scoping questions, connect directly with the SAN3A founders via WhatsApp or email.
+                <p className="text-sm text-studio-muted leading-relaxed font-normal font-sans">
+                  Skip the contact form and reach John or George directly for immediate scoping questions and project consultation.
                 </p>
 
-                <div className="space-y-4 pt-4 border-t border-studio-border font-mono text-xs">
-                  <a
-                    href="https://wa.me/201000000000"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between p-4 border border-studio-border bg-studio-surface hover:border-emerald-500/50 transition-colors group"
-                  >
-                    <div className="flex items-center gap-3 text-studio-fg font-semibold">
-                      <MessageSquare className="w-4 h-4 text-emerald-500" />
-                      <span>WhatsApp Direct Chat</span>
+                <div className="space-y-4 pt-4 border-t border-studio-border">
+                  
+                  {/* John Card */}
+                  <div className="border border-studio-border bg-studio-surface p-5 space-y-3">
+                    <div className="text-studio-fg font-bold text-sm font-sans flex justify-between items-center">
+                      <span>JOHN</span>
+                      <span className="text-[10px] text-studio-accent border border-studio-accent/40 px-2 py-0.5">FOUNDER</span>
                     </div>
-                    <span className="text-studio-muted group-hover:text-emerald-500">↗</span>
-                  </a>
 
-                  <a
-                    href="mailto:hello@san3a.co"
-                    className="flex items-center justify-between p-4 border border-studio-border bg-studio-surface hover:border-studio-fg transition-colors group"
-                  >
-                    <div className="flex items-center gap-3 text-studio-fg font-semibold">
-                      <Mail className="w-4 h-4 text-studio-accent" />
-                      <span>hello@san3a.co</span>
+                    <div className="flex flex-col space-y-2 pt-1 text-xs">
+                      <a href="tel:01226806622" className="flex items-center justify-between p-2.5 border border-studio-border bg-studio-bg hover:border-studio-fg transition-colors group">
+                        <span className="flex items-center gap-2 text-studio-fg font-semibold">
+                          <Phone className="w-3.5 h-3.5 text-studio-accent" />
+                          <span>01226806622</span>
+                        </span>
+                        <span className="text-[10px] text-studio-muted group-hover:text-studio-fg">Call →</span>
+                      </a>
+
+                      <a href="https://wa.me/201226806622" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-2.5 border border-studio-border bg-studio-bg hover:border-emerald-500/60 transition-colors group">
+                        <span className="flex items-center gap-2 text-studio-fg font-semibold">
+                          <MessageSquare className="w-3.5 h-3.5 text-emerald-500" />
+                          <span>WhatsApp John</span>
+                        </span>
+                        <span className="text-[10px] text-studio-muted group-hover:text-emerald-400">Chat ↗</span>
+                      </a>
                     </div>
-                    <span className="text-studio-muted group-hover:text-studio-fg">↗</span>
-                  </a>
-                </div>
-              </div>
+                  </div>
 
-              {/* Studio Specs */}
-              <div className="border border-studio-border bg-studio-surface p-6 font-mono text-xs text-studio-muted space-y-3">
-                <div className="flex justify-between">
-                  <span>TIMEZONE:</span>
-                  <span className="text-studio-fg">GMT+2 / GMT+3</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>RESPONSE TIME:</span>
-                  <span className="text-studio-fg">&lt; 24 HOURS</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>CAPACITY:</span>
-                  <span className="text-emerald-500 font-semibold">ACCEPTING Q2/Q3</span>
+                  {/* George Card */}
+                  <div className="border border-studio-border bg-studio-surface p-5 space-y-3">
+                    <div className="text-studio-fg font-bold text-sm font-sans flex justify-between items-center">
+                      <span>GEORGE</span>
+                      <span className="text-[10px] text-studio-accent border border-studio-accent/40 px-2 py-0.5">FOUNDER</span>
+                    </div>
+
+                    <div className="flex flex-col space-y-2 pt-1 text-xs">
+                      <a href="tel:+201229518750" className="flex items-center justify-between p-2.5 border border-studio-border bg-studio-bg hover:border-studio-fg transition-colors group">
+                        <span className="flex items-center gap-2 text-studio-fg font-semibold">
+                          <Phone className="w-3.5 h-3.5 text-studio-accent" />
+                          <span>+20 12 29518750</span>
+                        </span>
+                        <span className="text-[10px] text-studio-muted group-hover:text-studio-fg">Call →</span>
+                      </a>
+
+                      <a href="https://wa.me/201229518750" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-2.5 border border-studio-border bg-studio-bg hover:border-emerald-500/60 transition-colors group">
+                        <span className="flex items-center gap-2 text-studio-fg font-semibold">
+                          <MessageSquare className="w-3.5 h-3.5 text-emerald-500" />
+                          <span>WhatsApp George</span>
+                        </span>
+                        <span className="text-[10px] text-studio-muted group-hover:text-emerald-400">Chat ↗</span>
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Facebook Card */}
+                  <div className="pt-2">
+                    <a
+                      href="https://www.facebook.com/share/p/191qx2khJL/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between p-4 border border-studio-border bg-studio-surface hover:border-blue-500/60 transition-colors group"
+                    >
+                      <div className="flex items-center gap-3 text-studio-fg font-semibold">
+                        <FacebookIcon className="w-4 h-4 text-blue-500" />
+                        <span>SAN3A Official Facebook</span>
+                      </div>
+                      <ArrowUpRight className="w-4 h-4 text-studio-muted group-hover:text-studio-fg group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    </a>
+                  </div>
+
                 </div>
               </div>
 

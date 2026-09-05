@@ -3,7 +3,9 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Lock, ArrowRight, ShieldCheck } from 'lucide-react'
+import { ArrowRight, ShieldCheck } from 'lucide-react'
+import { supabase } from '@/lib/supabase/client'
+import { isSupabaseConfigured } from '@/lib/supabase/env'
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('')
@@ -12,19 +14,45 @@ export default function AdminLoginPage() {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError('')
 
-    // Basic admin credential check (can be replaced with Supabase Auth)
-    if (email && password) {
+    if (!email || !password) {
+      setLoading(false)
+      setError('Please enter valid email and password.')
+      return
+    }
+
+    try {
+      if (isSupabaseConfigured() && supabase) {
+        const { data, error: authError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        })
+
+        if (authError) {
+          setError(authError.message || 'Invalid login credentials.')
+          setLoading(false)
+          return
+        }
+
+        if (data.user) {
+          document.cookie = 'san3a_admin_session=authenticated; path=/; max-age=86400;'
+          setLoading(false)
+          router.push('/admin')
+          return
+        }
+      }
+
+      // Local fallback session marker
       document.cookie = 'san3a_admin_session=authenticated; path=/; max-age=86400;'
       setLoading(false)
       router.push('/admin')
-    } else {
+    } catch {
       setLoading(false)
-      setError('Please enter valid email and password.')
+      setError('Authentication failed. Please check your credentials.')
     }
   }
 
@@ -86,7 +114,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-studio-fg text-studio-bg py-4 text-xs uppercase tracking-widest font-extrabold flex items-center justify-center space-x-2 border border-studio-fg hover:bg-transparent hover:text-studio-fg transition-all duration-300"
+            className="w-full bg-studio-fg text-studio-bg py-4 text-xs uppercase tracking-widest font-extrabold flex items-center justify-center space-x-2 border border-studio-fg hover:bg-transparent hover:text-studio-fg transition-all duration-300 disabled:opacity-50"
           >
             <span>{loading ? 'Authenticating...' : 'Access Dashboard'}</span>
             <ArrowRight className="w-4 h-4" />

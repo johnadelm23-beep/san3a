@@ -1,22 +1,41 @@
 'use client'
 
 import { useState } from 'react'
-import { Settings, Save, ShieldCheck, Database, Server } from 'lucide-react'
+import { FormField } from '@/components/admin/FormField'
+import { AdminButton } from '@/components/admin/AdminButton'
+import { ImageUploader } from '@/components/admin/ImageUploader'
+import { useToast } from '@/context/ToastContext'
+import { Save, Settings, Palette, Mail, Share2 } from 'lucide-react'
+import { FacebookIcon } from '@/components/icons/FacebookIcon'
 
 export default function AdminSettingsPage() {
-  const [saved, setSaved] = useState(false)
+  const { showToast } = useToast()
+  const [activeTab, setActiveTab] = useState<'general' | 'brand' | 'contact' | 'social'>('general')
+
   const [settings, setSettings] = useState({
     studioName: 'SAN3A',
-    contactEmail: 'hello@san3a.co',
-    whatsappNumber: '+20 100 000 0000',
-    currency: 'USD ($)',
-    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL || 'Configured via .env.local',
+    description: 'SAN3A is a two-person creative technology studio by John & George engineering web platforms, mobile applications, visual systems, and custom software.',
+    logoUrl: '/projects/san3a.jpeg',
+    faviconUrl: '/projects/san3a.jpeg',
+    accentColor: '#D94A26',
+    
+    // John Contact
+    johnName: 'John',
+    johnPhone: '01226806622',
+    johnWhatsApp: 'https://wa.me/201226806622',
+
+    // George Contact
+    georgeName: 'George',
+    georgePhone: '+20 12 29518750',
+    georgeWhatsApp: 'https://wa.me/201229518750',
+
+    // Social (Facebook ONLY)
+    facebookUrl: 'https://www.facebook.com/share/p/191qx2khJL/',
   })
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault()
-    setSaved(true)
-    setTimeout(() => setSaved(false), 3000)
+    showToast('SAN3A studio settings updated successfully!', 'success')
   }
 
   return (
@@ -32,92 +51,182 @@ export default function AdminSettingsPage() {
         </h1>
       </div>
 
-      {saved && (
-        <div className="p-4 border border-emerald-500/50 bg-emerald-500/10 text-emerald-400 font-mono text-xs">
-          ✓ SAN3A system settings updated successfully.
-        </div>
-      )}
+      {/* Tabs Bar */}
+      <div className="flex items-center space-x-2 border-b border-studio-border pb-4 overflow-x-auto">
+        {[
+          { id: 'general', label: 'General', icon: Settings },
+          { id: 'brand', label: 'Brand Asset', icon: Palette },
+          { id: 'contact', label: 'Founders Contact', icon: Mail },
+          { id: 'social', label: 'Facebook Social', icon: Share2 },
+        ].map((tab) => {
+          const Icon = tab.icon
+          const isActive = activeTab === tab.id
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setActiveTab(tab.id as any)}
+              className={`flex items-center space-x-2 px-4 py-2 border font-bold uppercase transition-all ${
+                isActive
+                  ? 'bg-studio-fg text-studio-bg border-studio-fg'
+                  : 'border-studio-border text-studio-muted hover:text-studio-fg hover:border-studio-border-light'
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              <span>{tab.label}</span>
+            </button>
+          )
+        })}
+      </div>
 
+      {/* Tab Forms */}
       <form onSubmit={handleSave} className="border border-studio-border bg-studio-surface p-8 space-y-6">
         
-        <div className="space-y-4 pb-6 border-b border-studio-border">
-          <span className="text-studio-fg font-bold block uppercase text-sm">
-            [ STUDIO IDENTITY & CONTACT ]
-          </span>
+        {/* General Tab */}
+        {activeTab === 'general' && (
+          <div className="space-y-6">
+            <h2 className="text-sm font-bold text-studio-fg uppercase border-b border-studio-border pb-3 font-sans">
+              [ GENERAL STUDIO IDENTITY ]
+            </h2>
 
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-1">
-              <label className="text-studio-muted uppercase block">Studio Brand Name</label>
+            <FormField label="Studio Brand Name">
               <input
                 type="text"
                 value={settings.studioName}
                 onChange={(e) => setSettings({ ...settings, studioName: e.target.value })}
                 className="w-full bg-studio-bg border border-studio-border p-3 text-studio-fg focus:outline-none focus:border-studio-fg"
               />
-            </div>
+            </FormField>
 
-            <div className="space-y-1">
-              <label className="text-studio-muted uppercase block">Contact Email</label>
-              <input
-                type="email"
-                value={settings.contactEmail}
-                onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
-                className="w-full bg-studio-bg border border-studio-border p-3 text-studio-fg focus:outline-none focus:border-studio-fg"
+            <FormField label="Short Studio Manifesto Description">
+              <textarea
+                rows={4}
+                value={settings.description}
+                onChange={(e) => setSettings({ ...settings, description: e.target.value })}
+                className="w-full bg-studio-bg border border-studio-border p-3 text-studio-fg focus:outline-none focus:border-studio-fg resize-none"
               />
-            </div>
+            </FormField>
           </div>
+        )}
 
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-1">
-              <label className="text-studio-muted uppercase block">WhatsApp Number</label>
-              <input
-                type="text"
-                value={settings.whatsappNumber}
-                onChange={(e) => setSettings({ ...settings, whatsappNumber: e.target.value })}
-                className="w-full bg-studio-bg border border-studio-border p-3 text-studio-fg focus:outline-none focus:border-studio-fg"
-              />
-            </div>
+        {/* Brand Tab */}
+        {activeTab === 'brand' && (
+          <div className="space-y-6">
+            <h2 className="text-sm font-bold text-studio-fg uppercase border-b border-studio-border pb-3 font-sans">
+              [ SAN3A OFFICIAL BRAND ASSET ]
+            </h2>
 
-            <div className="space-y-1">
-              <label className="text-studio-muted uppercase block">Display Currency</label>
-              <input
-                type="text"
-                value={settings.currency}
-                onChange={(e) => setSettings({ ...settings, currency: e.target.value })}
-                className="w-full bg-studio-bg border border-studio-border p-3 text-studio-fg focus:outline-none focus:border-studio-fg"
-              />
-            </div>
+            <ImageUploader
+              label="SAN3A Brand Image Path"
+              value={settings.logoUrl}
+              onChange={(url) => setSettings({ ...settings, logoUrl: url })}
+              helperText="Official SAN3A brand visual located at /projects/san3a.jpeg"
+            />
+
+            <FormField label="Accent Hex Color">
+              <div className="flex items-center space-x-3">
+                <input
+                  type="text"
+                  value={settings.accentColor}
+                  onChange={(e) => setSettings({ ...settings, accentColor: e.target.value })}
+                  className="w-full bg-studio-bg border border-studio-border p-3 text-studio-fg focus:outline-none focus:border-studio-fg"
+                />
+                <div className="w-10 h-10 border border-studio-border shrink-0" style={{ backgroundColor: settings.accentColor }} />
+              </div>
+            </FormField>
           </div>
-        </div>
+        )}
 
-        {/* Database & Cloud Info */}
-        <div className="space-y-4 pt-2">
-          <span className="text-studio-fg font-bold block uppercase text-sm">
-            [ SUPABASE DATABASE ARCHITECTURE ]
-          </span>
+        {/* Contact Tab */}
+        {activeTab === 'contact' && (
+          <div className="space-y-6">
+            <h2 className="text-sm font-bold text-studio-fg uppercase border-b border-studio-border pb-3 font-sans">
+              [ JOHN & GEORGE FOUNDER CONTACTS ]
+            </h2>
 
-          <div className="p-4 border border-studio-border bg-studio-bg space-y-2 text-studio-muted">
-            <div className="flex justify-between items-center text-studio-fg">
-              <span className="flex items-center gap-2">
-                <Database className="w-4 h-4 text-studio-accent" />
-                DATABASE STATUS:
+            {/* John */}
+            <div className="border border-studio-border bg-studio-bg p-5 space-y-4">
+              <span className="text-studio-fg font-bold uppercase text-xs block border-b border-studio-border pb-2">
+                JOHN CONTACT DETAILS
               </span>
-              <span className="text-emerald-500 font-bold">READY / REPOSITORY LAYER ACTIVE</span>
-            </div>
-            <p className="text-[11px] leading-relaxed pt-1">
-              Data queries use the SAN3A DataService repository abstraction. Adding Supabase credentials (`NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`) to `.env.local` instantly enables live database operations.
-            </p>
-          </div>
-        </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormField label="Phone Number">
+                  <input
+                    type="text"
+                    value={settings.johnPhone}
+                    onChange={(e) => setSettings({ ...settings, johnPhone: e.target.value })}
+                    className="w-full bg-studio-surface border border-studio-border p-2.5 text-studio-fg"
+                  />
+                </FormField>
 
-        <div className="pt-4 flex justify-end">
-          <button
-            type="submit"
-            className="px-8 py-4 bg-studio-fg text-studio-bg font-extrabold uppercase border border-studio-fg hover:bg-transparent hover:text-studio-fg transition-all flex items-center space-x-2"
-          >
-            <Save className="w-4 h-4" />
-            <span>Save Settings</span>
-          </button>
+                <FormField label="WhatsApp URL">
+                  <input
+                    type="text"
+                    value={settings.johnWhatsApp}
+                    onChange={(e) => setSettings({ ...settings, johnWhatsApp: e.target.value })}
+                    className="w-full bg-studio-surface border border-studio-border p-2.5 text-studio-fg"
+                  />
+                </FormField>
+              </div>
+            </div>
+
+            {/* George */}
+            <div className="border border-studio-border bg-studio-bg p-5 space-y-4">
+              <span className="text-studio-fg font-bold uppercase text-xs block border-b border-studio-border pb-2">
+                GEORGE CONTACT DETAILS
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormField label="Phone Number">
+                  <input
+                    type="text"
+                    value={settings.georgePhone}
+                    onChange={(e) => setSettings({ ...settings, georgePhone: e.target.value })}
+                    className="w-full bg-studio-surface border border-studio-border p-2.5 text-studio-fg"
+                  />
+                </FormField>
+
+                <FormField label="WhatsApp URL">
+                  <input
+                    type="text"
+                    value={settings.georgeWhatsApp}
+                    onChange={(e) => setSettings({ ...settings, georgeWhatsApp: e.target.value })}
+                    className="w-full bg-studio-surface border border-studio-border p-2.5 text-studio-fg"
+                  />
+                </FormField>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Social Tab (Facebook ONLY) */}
+        {activeTab === 'social' && (
+          <div className="space-y-6">
+            <h2 className="text-sm font-bold text-studio-fg uppercase border-b border-studio-border pb-3 font-sans flex items-center gap-2">
+              <FacebookIcon className="w-4 h-4 text-blue-500" />
+              [ SAN3A OFFICIAL FACEBOOK PAGE ]
+            </h2>
+
+            <p className="text-xs text-studio-muted">
+              SAN3A operates exclusively on Facebook. All other social media channels are disabled across the public platform.
+            </p>
+
+            <FormField label="Official Facebook Share URL">
+              <input
+                type="text"
+                value={settings.facebookUrl}
+                onChange={(e) => setSettings({ ...settings, facebookUrl: e.target.value })}
+                placeholder="https://www.facebook.com/..."
+                className="w-full bg-studio-bg border border-studio-border p-3 text-studio-fg focus:outline-none focus:border-studio-fg"
+              />
+            </FormField>
+          </div>
+        )}
+
+        {/* Save Bar */}
+        <div className="pt-4 border-t border-studio-border flex justify-end">
+          <AdminButton type="submit" variant="primary" icon={<Save className="w-4 h-4" />}>
+            Save Settings
+          </AdminButton>
         </div>
 
       </form>

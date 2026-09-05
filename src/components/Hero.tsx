@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowDownRight, ArrowRight } from 'lucide-react'
 
@@ -11,8 +12,8 @@ export default function Hero() {
         {/* Asymmetrical Editorial Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start">
           
-          {/* Left Column: Typography & Action (8 Columns) */}
-          <div className="lg:col-span-8 flex flex-col justify-between space-y-10">
+          {/* Left Column: Typography & Action (7 Columns) */}
+          <div className="lg:col-span-7 flex flex-col justify-between space-y-10">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -66,40 +67,47 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right Column: Architectural SAN3A Blueprint Card (4 Columns) */}
+          {/* Right Column: SAN3A Brand Logo Visual Blueprint Card (5 Columns) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-4 relative mt-4 lg:mt-0"
+            className="lg:col-span-5 relative mt-4 lg:mt-0"
           >
-            <div className="border border-studio-border bg-studio-surface p-6 space-y-6 font-mono text-xs text-studio-muted">
+            <div className="border border-studio-border bg-studio-surface p-4 sm:p-5 space-y-4 font-mono text-xs text-studio-muted">
               
-              <div className="flex items-center justify-between border-b border-studio-border pb-4">
-                <span className="text-studio-fg font-bold tracking-widest">[ SAN3A CORE ]</span>
+              <div className="flex items-center justify-between border-b border-studio-border pb-3">
+                <span className="text-studio-fg font-bold tracking-widest">[ SAN3A BRAND SYSTEM ]</span>
                 <span className="w-2 h-2 rounded-full bg-studio-accent animate-pulse" />
               </div>
 
-              <div className="space-y-4 text-[11px] leading-relaxed">
-                <div>
-                  <span className="text-studio-darkmuted uppercase block mb-1">// PARTNERS</span>
-                  <p className="text-studio-fg">Two-Person Engineering & Design Duo</p>
-                </div>
-
-                <div>
-                  <span className="text-studio-darkmuted uppercase block mb-1">// FOCUS</span>
-                  <p className="text-studio-fg">Web Apps, Mobile Systems, Branding & Custom Software</p>
-                </div>
-
-                <div>
-                  <span className="text-studio-darkmuted uppercase block mb-1">// METHOD</span>
-                  <p className="text-studio-fg">No bloat. Direct founder access. Precision execution.</p>
-                </div>
+              {/* Official SAN3A Logo Image Display */}
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-black border border-studio-border group">
+                <Image
+                  src="/projects/san3a.jpeg"
+                  alt="SAN3A Official Studio Brand"
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                  className="object-contain p-2 group-hover:scale-[1.02] transition-transform duration-500"
+                />
               </div>
 
-              <div className="border-t border-studio-border pt-4 flex justify-between items-center text-[10px] text-studio-darkmuted">
-                <span>SYSTEM STATUS</span>
-                <span className="text-emerald-500 font-semibold">AVAILABLE Q2/Q3</span>
+              <div className="space-y-2 text-[11px] leading-relaxed pt-1">
+                <div className="flex justify-between border-b border-studio-border/40 pb-2">
+                  <span className="text-studio-darkmuted uppercase">// FOUNDERS</span>
+                  <span className="text-studio-fg font-semibold">JOHN & GEORGE</span>
+                </div>
+
+                <div className="flex justify-between border-b border-studio-border/40 pb-2">
+                  <span className="text-studio-darkmuted uppercase">// FOCUS</span>
+                  <span className="text-studio-fg font-semibold">WEB, MOBILE & BRANDING</span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span className="text-studio-darkmuted uppercase">// AVAILABILITY</span>
+                  <span className="text-emerald-500 font-semibold">ACCEPTING PROJECTS</span>
+                </div>
               </div>
 
             </div>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { ArrowUpRight, Menu, X } from 'lucide-react'
 
@@ -22,7 +23,6 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false)
   }, [pathname])
@@ -39,15 +39,24 @@ export default function Header() {
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           scrolled
-            ? 'bg-[#080808]/90 backdrop-blur-md py-4 border-b border-studio-border'
-            : 'bg-transparent py-6 border-b border-studio-border/40'
+            ? 'bg-[#080808]/92 backdrop-blur-md py-3.5 border-b border-studio-border'
+            : 'bg-transparent py-5 border-b border-studio-border/40'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
-          {/* Left: SAN3A Brand Mark */}
+          
+          {/* Left: Official SAN3A Logo Image & Brand Name */}
           <Link href="/" className="group flex items-center gap-3">
-            <div className="flex items-center gap-2.5">
-              <span className="inline-block w-2 h-2 rounded-full bg-studio-accent animate-pulse" />
+            <div className="relative w-8 h-8 rounded-none border border-studio-border overflow-hidden bg-studio-surface shrink-0">
+              <Image
+                src="/projects/san3a.jpeg"
+                alt="SAN3A Logo"
+                fill
+                sizes="32px"
+                className="object-cover"
+              />
+            </div>
+            <div className="flex items-center gap-2">
               <span className="font-extrabold tracking-widest text-xl text-studio-fg group-hover:text-white transition-colors">
                 SAN3A
               </span>
@@ -85,25 +94,32 @@ export default function Header() {
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
 
-            {/* Mobile Menu Toggle Button */}
+            {/* Mobile Hamburger Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden p-2 text-studio-fg hover:text-studio-accent transition-colors border border-studio-border"
-              aria-label="Toggle navigation menu"
+              aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
+
         </div>
       </header>
 
-      {/* Mobile Drawer Overlay */}
+      {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-30 bg-[#080808]/98 backdrop-blur-xl md:hidden pt-28 px-6 pb-12 flex flex-col justify-between border-b border-studio-border">
+        <div className="fixed inset-0 z-30 bg-[#080808]/98 backdrop-blur-xl md:hidden pt-24 px-6 pb-12 flex flex-col justify-between border-b border-studio-border font-sans">
           <div className="space-y-8">
-            <span className="font-mono text-xs uppercase tracking-widest text-studio-muted border-l border-studio-accent pl-3 block">
-              // SAN3A NAVIGATION
-            </span>
+            <div className="flex items-center gap-3 border-b border-studio-border pb-4">
+              <div className="relative w-7 h-7 border border-studio-border overflow-hidden">
+                <Image src="/projects/san3a.jpeg" alt="SAN3A" fill sizes="28px" className="object-cover" />
+              </div>
+              <span className="font-mono text-xs uppercase tracking-widest text-studio-fg font-bold">
+                SAN3A NAVIGATION
+              </span>
+            </div>
+
             <nav className="flex flex-col space-y-6">
               <Link
                 href="/"

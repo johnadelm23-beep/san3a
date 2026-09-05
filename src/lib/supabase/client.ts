@@ -1,7 +1,33 @@
-import { createClient } from '@supabase/supabase-js'
-import type { Database } from '../types/database.types'
+import { createBrowserClient } from '@supabase/ssr';
+import type { Database } from '../types/database.types';
+import { getSupabaseUrl, getSupabasePublishableKey, validateSupabaseEnv, isSupabaseConfigured } from './env';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
+/**
+ * Creates a reusable client-side (browser) Supabase client using @supabase/ssr.
+ */
+export function createClient() {
+  const url = getSupabaseUrl();
+  const key = getSupabasePublishableKey();
 
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey)
+  if (!url || !key) {
+    validateSupabaseEnv();
+  }
+
+  return createBrowserClient<Database>(url, key);
+}
+
+let cachedBrowserClient: ReturnType<typeof createBrowserClient<Database>> | null = null;
+
+export function getBrowserSupabase() {
+  if (!cachedBrowserClient) {
+    cachedBrowserClient = createClient();
+  }
+  return cachedBrowserClient;
+}
+
+/**
+ * Singleton export for existing component imports
+ */
+export const supabase = isSupabaseConfigured()
+  ? createBrowserClient<Database>(getSupabaseUrl(), getSupabasePublishableKey())
+  : (null as unknown as ReturnType<typeof createBrowserClient<Database>>);
