@@ -1,3 +1,5 @@
+export type PaizoGameCategory = 'general' | 'study-games'
+
 export interface HowToPlayStep {
   step: string
   title: string
@@ -9,6 +11,7 @@ export interface HowToPlayStep {
 export interface PaizoGame {
   id: string
   slug: string
+  category?: PaizoGameCategory
   name: string
   nameAr: string
   image: string
@@ -36,6 +39,7 @@ export const paizoGames: PaizoGame[] = [
   {
     id: 'st-mime',
     slug: 'st-mime',
+    category: 'general',
     name: 'ST / S.T MIME',
     nameAr: 'إس تي ميم (ST / S.T MIME)',
     image: 'https://res.cloudinary.com/no25n6db/image/upload/v1788725850/st_mime_w8covz.png',
@@ -94,6 +98,7 @@ export const paizoGames: PaizoGame[] = [
   {
     id: 'tako',
     slug: 'tako',
+    category: 'general',
     name: 'TAKO',
     nameAr: 'تاكو (TAKO)',
     image: 'https://res.cloudinary.com/no25n6db/image/upload/v1788726020/tako_mkejzg.jpg',
@@ -152,6 +157,7 @@ export const paizoGames: PaizoGame[] = [
   {
     id: 'bible-mime',
     slug: 'bible-mime',
+    category: 'general',
     name: 'Bible Mime',
     nameAr: 'ميم الكتاب المقدس (Bible Mime)',
     image: 'https://res.cloudinary.com/no25n6db/image/upload/v1788726029/bible_mime_v6aom7.png',
@@ -210,6 +216,7 @@ export const paizoGames: PaizoGame[] = [
   {
     id: 'team-work',
     slug: 'team-work',
+    category: 'general',
     name: 'Team Work Game',
     nameAr: 'لعبة العمل الجماعي (Team Work Game)',
     image: 'https://res.cloudinary.com/no25n6db/image/upload/v1788726042/team_work_game_pr1prg.jpg',
@@ -266,10 +273,11 @@ export const paizoGames: PaizoGame[] = [
     ],
   },
   {
-    id: 'live-it',
-    slug: 'live-it',
-    name: 'Live It',
-    nameAr: 'لايف إت (Live It)',
+    id: 'levit',
+    slug: 'levit',
+    category: 'study-games',
+    name: 'Levit',
+    nameAr: 'ليفيت',
     image: 'https://res.cloudinary.com/no25n6db/image/upload/v1788726056/liveit_4_xa4ha2.png',
     galleryImages: [
       'https://res.cloudinary.com/no25n6db/image/upload/v1788726057/liveit_1_tfcpja.png',
@@ -280,56 +288,117 @@ export const paizoGames: PaizoGame[] = [
       'https://res.cloudinary.com/no25n6db/image/upload/v1788726075/liveit_2_qdcrri.png',
       'https://res.cloudinary.com/no25n6db/image/upload/v1788726079/liveit_3_itbazf.png',
     ],
-    shortDescription: 'Immersive real-world life experience roleplay where teams navigate choices, challenges, and group decisions.',
-    shortDescriptionAr: 'تجربة محاكاة تفاعلية غامرة يعيش فيها اللاعبون قرارات واقعية وتحديات اختيارية.',
-    about: 'Live It is an immersive interactive life-simulation experience designed by PAIZO. Participants enter a dynamic scenario ecosystem where every decision impacts their team budget, relationships, moral standing, and final group outcome. It brings real life choices into an unforgettable gamified environment.',
-    aboutAr: 'لايف إت هي تجربة محاكاة حياة تفاعلية مبتكرة صممها بيزو. يدخل المشاركون بيئة سيناريوهات متغيرة حيث تؤثر كل حركاتهم وقراراتهم على ميزانية الفريق والعلاقات والنتيجة النهائية. تحوّل خيارات الحياة لبيئة ألعاب لا تُنسى.',
-    players: '8 – 100 Players',
-    playersAr: '٨ - ١٠٠ لاعب',
-    duration: '45 – 90 Mins',
-    durationAr: '٤٥ - ٩٠ دقيقة',
-    type: 'Immersive Experience / Roleplay',
-    typeAr: 'تجربة غامرة / محاكاة تفاعلية',
+    shortDescription: 'Discover the depth and meaning of Christ’s sacrifice through Levit, a visual study of the Book of Leviticus.',
+    shortDescriptionAr: 'اكتشف أعماق ذبيحة المسيح من خلال «ليفيت» في اللاويين. دراسة بصرية وروحية تبسط الذبائح الخمسة.',
+    about: 'Discover the depth and meaning of Christ’s sacrifice through Levit, a visual study of the Book of Leviticus. Levit makes the Book of Leviticus easier to understand by exploring the five offerings in a visual and spiritual way. Each page breaks down one offering with clear points and illustrations that connect it to the cross of Christ, along with dedicated space for your personal reflections and notes. Inspired by the look and feel of ancient papyrus, Levit turns Bible study into an engaging journey of discovery. Get your pen ready and begin the journey.',
+    aboutAr: 'اكتشف أعماق ذبيحة المسيح من خلال «ليفيت» في اللاويين. فهم اللاويين مش لازم يكون معقد! دراسة «ليفيت» من بايزو بتبسطلك الذبائح الخمسة في سفر اللاويين بطريقة بصرية وروحية. كل صفحة فيها ذبيحة مشروحة بالنقاط، مع رسوم توضيحية بتربطها بوضوح بصليب المسيح، ومكان واسع تكتب فيه تأملك الشخصي. تصميم مميز مستوحى من ورق البردي. جهز قلمك وابدأ رحلة الاكتشاف.',
+    players: 'Individual / Group Study',
+    playersAr: 'دراسة فردية أو جماعية',
+    duration: 'Self-Paced / 45 Mins',
+    durationAr: 'حسب رغبتك / ٤٥ دقيقة',
+    type: 'Visual Bible Study',
+    typeAr: 'دراسة كتابية بصرية',
     difficulty: 'Medium',
     difficultyAr: 'متوسط',
-    badge: 'Immersive Simulation',
-    badgeAr: 'محاكاة تفاعلية غامرة',
+    badge: 'Leviticus Study',
+    badgeAr: 'دراسة سفر اللاويين',
     howToPlay: [
       {
         step: '01',
-        title: 'Persona & Household Setup',
-        titleAr: 'إنشاء الشخصية والمجموعة',
-        description: 'Participants establish their group identities, receive initial resources, and form operational households.',
-        descriptionAr: 'ينشئ المشاركون هوية مجموعتهم ويتسلمون الموارد الأساسية وبطاقات الأدوار.',
+        title: 'Understand the Offerings',
+        titleAr: 'فهم الذبائح الخمسة',
+        description: 'Explore the five Leviticus offerings summarized in clear bullet points and visual layouts.',
+        descriptionAr: 'استكشف الذبائح الخمسة في سفر اللاويين المبسطة في نقاط دقيقة ورسوم بصرية.',
       },
       {
         step: '02',
-        title: 'Life Scenario Cycles',
-        titleAr: 'دورات سيناريو الحياة',
-        description: 'PAIZO facilitators introduce real-life scenarios (Career, Budget Crisis, Ethical Choices, Community Events).',
-        descriptionAr: 'يقوم موجهو بيزو بطرح سيناريوهات واقعية (العمل، الميزانية، القرارات الأخلاقية، الأحداث المجتمعية).',
+        title: 'Connect to the Cross',
+        titleAr: 'الربط بصليب المسيح',
+        description: 'Examine visual illustrations explicitly connecting each ancient offering to the sacrifice of Christ.',
+        descriptionAr: 'تأمل الرسوم التوضيحية التي تربط كل ذبيحة بوضوح بفداء وصليب المسيح.',
       },
       {
         step: '03',
-        title: 'Group Decision Voting',
-        titleAr: 'التصويت واتخاذ القرار',
-        description: 'Teams negotiate choices, debate tradeoffs, vote on actions, and commit their allocated capital.',
-        descriptionAr: 'يتناقش أعضاء الفريق حول الخيارات ويصوتون على القرار النهائي لاستثمار مواردهم.',
+        title: 'Papyrus Journaling',
+        titleAr: 'التدوين والتأمل',
+        description: 'Use the dedicated journaling section to write your personal spiritual reflections and insights.',
+        descriptionAr: 'استخدم المساحات المخصصة في التصميم المستوحى من البردي لتسجيل تأملاتك الروحية.',
       },
       {
         step: '04',
-        title: 'Real-Time Impact Calculation',
-        titleAr: 'حساب النتائج المباشر',
-        description: 'Decisions trigger real-time outcomes that open narrative branches, unexpected opportunities, or new challenges.',
-        descriptionAr: 'تؤدي القرارات لنتائج فورية تفتح مسارات جديدة في القصة وتحديات غير متوقعة.',
+        title: 'Group Discussion',
+        titleAr: 'المناقشة الجماعية',
+        description: 'Share and debate findings with youth meeting participants or study group members.',
+        descriptionAr: 'شارِك وناقش الاستنتاجات والتأملات مع باقي أعضاء الاجتماع أو المجموعة.',
+      },
+    ],
+  },
+  {
+    id: 'exodus',
+    slug: 'exodus',
+    category: 'study-games',
+    name: 'Exodus',
+    nameAr: 'إكسودوس',
+    image: 'https://res.cloudinary.com/no25n6db/image/upload/v1788729307/exodos_2_hgkmsx.jpg',
+    galleryImages: [
+      'https://res.cloudinary.com/no25n6db/image/upload/v1788729308/exodos_5_xgiydl.jpg',
+      'https://res.cloudinary.com/no25n6db/image/upload/v1788729308/exodos_3_cvhvwb.jpg',
+      'https://res.cloudinary.com/no25n6db/image/upload/v1788729309/exodos_6_jnkzov.jpg',
+      'https://res.cloudinary.com/no25n6db/image/upload/v1788729312/exodos_7_nsh6n6.jpg',
+      'https://res.cloudinary.com/no25n6db/image/upload/v1788729312/exodos_8_nj4ejp.jpg',
+      'https://res.cloudinary.com/no25n6db/image/upload/v1788729314/exodos_9_si9ak5.jpg',
+      'https://res.cloudinary.com/no25n6db/image/upload/v1788729315/exodos_10_sl3tgu.jpg',
+      'https://res.cloudinary.com/no25n6db/image/upload/v1788729317/exodos_11_wyua1y.jpg',
+      'https://res.cloudinary.com/no25n6db/image/upload/v1788729318/exodos_12_ydmosr.jpg',
+      'https://res.cloudinary.com/no25n6db/image/upload/v1788729319/exodos_o6vhec.jpg',
+      'https://res.cloudinary.com/no25n6db/image/upload/v1788729321/exodos1_zpgntp.jpg',
+    ],
+    shortDescription: 'Have you ever wondered about the meaning behind each of the Ten Plagues? In PAIZO’s Exodus study, we take the story to another level.',
+    shortDescriptionAr: 'عمرك سألت نفسك إيه الحكمة ورا كل ضربة من الضربات العشرة؟ 🤔 في دراسة «إكسودوس» من بايزو، خدنا القصة ليفل تاني!',
+    about: 'Have you ever wondered about the meaning behind each of the Ten Plagues? In PAIZO’s Exodus study, we take the story to another level. Each page explores one of the plagues and connects it to the gods of ancient Egypt, helping you understand the challenge Pharaoh and his people were facing — such as the plague of frogs and the challenge to the goddess Heqet. The design is inspired by ancient papyrus, with dedicated space for you to write your own reflections and notes. Get your pen ready and begin the journey!',
+    aboutAr: 'عمرك سألت نفسك إيه الحكمة ورا كل ضربة من الضربات العشرة؟ 🤔 في دراسة «إكسودوس» (Exodus) من بايزو، خدنا القصة ليفل تاني! كل صفحة بتشرح ضربة، وبتربطها بآلهة المصريين القدماء عشان تفهم التحدي كان عامل إزاي، زي ضربة الضفادع وتحدي الإلهة حقت. التصميم متكلف على ستايل ورق البردي، وسايبين لك مساحة مخصوصة تكتب فيها تأملاتك وملاحظاتك براحتك. جهز قلمك وابدأ الرحلة!',
+    players: 'Individual / Group Study',
+    playersAr: 'دراسة فردية أو جماعية',
+    duration: 'Self-Paced / 45 Mins',
+    durationAr: 'حسب رغبتك / ٤٥ دقيقة',
+    type: 'Visual Bible Study',
+    typeAr: 'دراسة كتابية بصرية',
+    difficulty: 'Medium',
+    difficultyAr: 'متوسط',
+    badge: 'Ten Plagues Study',
+    badgeAr: 'دراسة الضربات العشرة',
+    howToPlay: [
+      {
+        step: '01',
+        title: 'Open the Study',
+        titleAr: 'افتح الدراسة',
+        description: 'Begin by opening the Exodus visual study guide inspired by papyrus art.',
+        descriptionAr: 'ابدأ بفتح دليل دراسة إكسودوس البصري المستوحى من الفن البردي.',
       },
       {
-        step: '05',
-        title: 'Reflection & Debriefing',
-        titleAr: 'المناقشة والاستنتاج',
-        description: 'A guided debrief session explores decision patterns, moral reflections, and core life takeaways.',
-        descriptionAr: 'جلسة مناقشة وختام تستخلص الدروس المستفادة والنمط الفكري والنتائج الأخلاقية.',
+        step: '02',
+        title: 'Explore the Plagues',
+        titleAr: 'استكشف الضربات',
+        description: 'Read through each plague page and discover its connection to ancient Egyptian deities.',
+        descriptionAr: 'اقرأ صفحات الضربات واستكشف ارتباط كل ضربة بآلهة المصريين القدماء.',
+      },
+      {
+        step: '03',
+        title: 'Reflect & Write',
+        titleAr: 'تأمل واكتب',
+        description: 'Use the dedicated notes section to record your personal insights and spiritual reflections.',
+        descriptionAr: 'استخدم المساحة المخصصة للتدوين لتسجيل تأملاتك الشخصية وملاحظاتك الروحية.',
+      },
+      {
+        step: '04',
+        title: 'Share in Groups',
+        titleAr: 'شارِك في المجموعات',
+        description: 'Discuss findings with your youth group or Bible study circle for deeper community learning.',
+        descriptionAr: 'ناقش الاستنتاجات مع مجموعتك الدراسية لتبادل الخبرات والنمو الروحي.',
       },
     ],
   },
 ]
+
+export const generalPaizoGames = paizoGames.filter((g) => g.category !== 'study-games')
+export const studyPaizoGames = paizoGames.filter((g) => g.category === 'study-games')

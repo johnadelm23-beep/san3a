@@ -112,6 +112,14 @@ export interface TranslationStructure {
     nextGame: string
     relatedGames: string
     otherGames: string
+    studyGamesTitle: string
+    studyGamesSubtitle: string
+    studyGamesDesc: string
+    exploreStudyGames: string
+    backToStudyGames: string
+    previousStudy: string
+    nextStudy: string
+    moreStudyGames: string
   }
   services: {
     tag: string
@@ -283,6 +291,14 @@ export const translations: Record<Language, TranslationStructure> = {
       nextGame: 'Next Game',
       relatedGames: 'Related Games',
       otherGames: 'Explore More PAIZO Games',
+      studyGamesTitle: 'PAIZO Study Games',
+      studyGamesSubtitle: 'Visual Bible studies designed to make Scripture easier to explore, understand, and remember.',
+      studyGamesDesc: 'PAIZO creates visual and interactive Bible-study experiences that make studying Scripture more engaging, understandable, and memorable.',
+      exploreStudyGames: 'Explore Study Games',
+      backToStudyGames: 'Back to Study Games',
+      previousStudy: 'Previous Study',
+      nextStudy: 'Next Study',
+      moreStudyGames: 'More Study Games',
     },
     services: {
       tag: '// CORE CAPABILITIES',
@@ -452,6 +468,14 @@ export const translations: Record<Language, TranslationStructure> = {
       nextGame: 'اللعبة التالية',
       relatedGames: 'ألعاب قد تهمك',
       otherGames: 'استكشف ألعاباً وتجارب أخرى من PAIZO',
+      studyGamesTitle: 'ألعاب الدراسات من PAIZO',
+      studyGamesSubtitle: 'دراسات كتابية بصرية مصممة لتجعل كلمة الله أسهل في الاستكشاف والفهم والتأمل.',
+      studyGamesDesc: 'تخلق PAIZO تجارب دراسة كتابية بصرية وتفاعلية تجعل دراسة الكتاب المقدس أكثر جاذبية ووضوحاً وسهولة في التذكر.',
+      exploreStudyGames: 'اكتشف ألعاب الدراسات',
+      backToStudyGames: 'العودة إلى ألعاب الدراسات',
+      previousStudy: 'الدراسة السابقة',
+      nextStudy: 'الدراسة التالية',
+      moreStudyGames: 'المزيد من ألعاب الدراسات',
     },
     services: {
       tag: '// خدماتنا الأساسية',

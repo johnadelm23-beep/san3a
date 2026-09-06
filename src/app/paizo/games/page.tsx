@@ -5,7 +5,7 @@ import PaizoGamesCatalogClient from '@/components/paizo/PaizoGamesCatalogClient'
 
 export const metadata: Metadata = {
   title: 'PAIZO Games & Experiences — Collection | مجموعة ألعاب PAIZO التفاعلية',
-  description: 'Explore the full catalog of PAIZO interactive games and creative experiences engineered by SAN3A: ST Mime, TAKO, Bible Mime, Team Work Game, and Live It.',
+  description: 'Explore the full catalog of PAIZO interactive games and creative experiences engineered by SAN3A: ST Mime, TAKO, Bible Mime, Team Work Game, and Levit.',
 }
 
 export const revalidate = 0

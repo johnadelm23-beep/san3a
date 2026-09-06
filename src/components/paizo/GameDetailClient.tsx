@@ -2,18 +2,23 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
 import {
   Users,
   Clock,
   Gamepad2,
+  BookOpen,
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
   Sparkles,
   Layers,
 } from 'lucide-react'
-import { paizoGames, PAIZO_LOGO_URL } from '@/lib/data/paizoGames'
+import {
+  paizoGames,
+  generalPaizoGames,
+  studyPaizoGames,
+  PAIZO_LOGO_URL,
+} from '@/lib/data/paizoGames'
 import { useLanguage } from '@/context/LanguageContext'
 import PaizoImage from './PaizoImage'
 import GameCard from './GameCard'
@@ -23,10 +28,9 @@ interface GameDetailClientProps {
 }
 
 export default function GameDetailClient({ slug }: GameDetailClientProps) {
-  const { t, language, isRTL } = useLanguage()
+  const { t, isRTL } = useLanguage()
 
-  const currentIndex = paizoGames.findIndex((g) => g.slug === slug)
-  const game = paizoGames[currentIndex]
+  const game = paizoGames.find((g) => g.slug === slug)
 
   if (!game) {
     return (
@@ -41,7 +45,7 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
               : 'The requested PAIZO game could not be found in our collection.'}
           </p>
           <Link
-            href="/paizo/games"
+            href="/paizo"
             className="inline-flex items-center gap-2 bg-studio-fg text-studio-bg px-6 py-3 font-mono text-xs uppercase font-bold rounded-lg"
           >
             <span>{t.paizo.backToGames}</span>
@@ -51,9 +55,13 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
     )
   }
 
-  const prevGame = paizoGames[(currentIndex - 1 + paizoGames.length) % paizoGames.length]
-  const nextGame = paizoGames[(currentIndex + 1) % paizoGames.length]
-  const otherGames = paizoGames.filter((g) => g.slug !== slug)
+  const isStudyGame = game.category === 'study-games'
+  const activePool = isStudyGame ? studyPaizoGames : generalPaizoGames
+  const currentIndex = activePool.findIndex((g) => g.slug === slug)
+
+  const prevGame = activePool[(currentIndex - 1 + activePool.length) % activePool.length]
+  const nextGame = activePool[(currentIndex + 1) % activePool.length]
+  const otherGames = activePool.filter((g) => g.slug !== slug)
 
   const name = isRTL ? game.nameAr : game.name
   const shortDesc = isRTL ? game.shortDescriptionAr : game.shortDescription
@@ -70,22 +78,29 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
   const BackIcon = isRTL ? ArrowRight : ArrowLeft
   const ForwardIcon = isRTL ? ArrowLeft : ArrowRight
 
+  const backCategoryHref = isStudyGame ? '/paizo/study-games' : '/paizo/games'
+  const backCategoryLabel = isStudyGame ? t.paizo.backToStudyGames : t.paizo.backToGames
+  const prevLabel = isStudyGame ? t.paizo.previousStudy : t.paizo.previousGame
+  const nextLabel = isStudyGame ? t.paizo.nextStudy : t.paizo.nextGame
+  const relatedSectionTitle = isStudyGame ? t.paizo.moreStudyGames : t.paizo.relatedGames
+  const categoryBadgeIcon = isStudyGame ? BookOpen : Gamepad2
+
   return (
     <article className="pt-32 pb-24 md:pt-44 md:pb-36 border-b border-studio-border">
       <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-16">
-        {/* Top Breadcrumb Navigation Bar: San3a → PAIZO → Games → Game Name */}
+        {/* Top Breadcrumb Navigation Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-studio-border pb-6 font-mono text-xs gap-4">
           <div className="flex items-center gap-2 text-studio-muted flex-wrap">
             <Link href="/" className="hover:text-studio-fg transition-colors">
-              San3a
+              {isRTL ? 'صنّعة' : 'San3a'}
             </Link>
             <span>/</span>
             <Link href="/paizo" className="hover:text-studio-fg transition-colors">
               PAIZO
             </Link>
             <span>/</span>
-            <Link href="/paizo/games" className="hover:text-studio-fg transition-colors">
-              {isRTL ? 'الألعاب' : 'Games'}
+            <Link href={backCategoryHref} className="hover:text-studio-fg transition-colors">
+              {isStudyGame ? (isRTL ? 'ألعاب الدراسات' : 'Study Games') : (isRTL ? 'الألعاب' : 'Games')}
             </Link>
             <span>/</span>
             <span className="text-studio-fg font-bold">{name}</span>
@@ -93,11 +108,11 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
 
           <div className="flex items-center gap-3">
             <Link
-              href="/paizo/games"
+              href={backCategoryHref}
               className="group inline-flex items-center gap-2 text-studio-muted hover:text-studio-fg transition-colors mr-2 rtl:mr-0 rtl:ml-2"
             >
               <BackIcon className="w-4 h-4 transition-transform group-hover:-translate-x-1 rtl:group-hover:translate-x-1" />
-              <span>{t.paizo.backToGames}</span>
+              <span>{backCategoryLabel}</span>
             </Link>
             <div className="relative w-6 h-6 rounded-md overflow-hidden bg-studio-surface border border-studio-border shrink-0">
               <Image src={PAIZO_LOGO_URL} alt="PAIZO Logo" fill sizes="24px" className="object-contain p-0.5" />
@@ -109,7 +124,7 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Left Hero Image Showcase (7 Cols = ~60% Width Desktop) */}
           <div className="lg:col-span-7 space-y-4">
-            <div className="rounded-2xl overflow-hidden shadow-2xl border border-studio-border bg-studio-surface p-2 sm:p-3">
+            <div className={`rounded-2xl overflow-hidden shadow-2xl border p-2 sm:p-3 ${isStudyGame ? 'border-amber-900/40 bg-gradient-to-b from-studio-surface to-amber-950/20' : 'border-studio-border bg-studio-surface'}`}>
               <PaizoImage
                 src={game.image}
                 alt={`PAIZO ${name}`}
@@ -122,7 +137,7 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
             </div>
 
             <div className="flex items-center justify-between font-mono text-[11px] text-studio-muted px-1">
-              <span>{isRTL ? `أرشيف ألعاب PAIZO التفاعلي // ${game.id.toUpperCase()}` : `PAIZO INTERACTIVE ARCHIVE // ${game.id.toUpperCase()}`}</span>
+              <span>{isRTL ? `أرشيف PAIZO // ${game.id.toUpperCase()}` : `PAIZO ARCHIVE // ${game.id.toUpperCase()}`}</span>
               <span>{isRTL ? 'صورة معتمدة عبر Cloudinary' : 'PAIZO CERTIFIED ASSET'}</span>
             </div>
           </div>
@@ -130,8 +145,8 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
           {/* Right Details & Metadata Column (5 Cols) */}
           <div className="lg:col-span-5 space-y-8">
             <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-studio-accent border border-studio-border px-3 py-1.5 bg-studio-surface rounded-md">
-                <Gamepad2 className="w-4 h-4" />
+              <div className={`inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest px-3 py-1.5 rounded-md border ${isStudyGame ? 'text-amber-400 border-amber-500/40 bg-amber-950/20' : 'text-studio-accent border-studio-border bg-studio-surface'}`}>
+                {isStudyGame ? <BookOpen className="w-4 h-4 text-amber-400" /> : <Gamepad2 className="w-4 h-4 text-studio-accent" />}
                 <span>{badge}</span>
               </div>
 
@@ -202,7 +217,7 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
                 href="#how-to-play"
                 className="w-full inline-flex items-center justify-center gap-3 bg-studio-fg text-studio-bg px-8 py-4 text-xs uppercase tracking-widest font-extrabold rounded-xl border border-studio-fg hover:bg-transparent hover:text-studio-fg transition-all duration-300 font-mono"
               >
-                <span>{t.paizo.howToPlay}</span>
+                <span>{isStudyGame ? (isRTL ? 'دليل دراسة السفر' : 'Read Study Guide') : t.paizo.howToPlay}</span>
                 <ForwardIcon className="w-4 h-4" />
               </a>
             </div>
@@ -213,7 +228,7 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
         <div className="border-t border-studio-border pt-16 space-y-6">
           <div className="max-w-3xl space-y-4">
             <span className="font-mono text-xs uppercase tracking-widest text-studio-accent border-l-2 border-studio-accent pl-3 rtl:border-l-0 rtl:border-r-2 rtl:pl-0 rtl:pr-3 block">
-              {isRTL ? '// تفاصيل اللعبة' : '// GAME CONCEPT'}
+              {isStudyGame ? (isRTL ? '// مفهوم الدراسة' : '// STUDY CONCEPT') : (isRTL ? '// تفاصيل اللعبة' : '// GAME CONCEPT')}
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-studio-fg">
               {t.paizo.aboutGame}
@@ -224,27 +239,27 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
           </div>
         </div>
 
-        {/* Live Experience Photos Gallery (e.g. for Live It or games with extra photos) */}
+        {/* Gallery Section (e.g. 12 images for Exodus or Levit) */}
         {game.galleryImages && game.galleryImages.length > 0 && (
           <div className="border-t border-studio-border pt-16 space-y-8">
             <div className="space-y-2">
-              <span className="font-mono text-xs uppercase tracking-widest text-studio-accent border-l-2 border-studio-accent pl-3 rtl:border-l-0 rtl:border-r-2 rtl:pl-0 rtl:pr-3 block">
-                {isRTL ? '// معرض الصور التفاعلي' : '// VISUAL GALLERY'}
+              <span className="font-mono text-xs uppercase tracking-widest text-amber-400 border-l-2 border-amber-400 pl-3 rtl:border-l-0 rtl:border-r-2 rtl:pl-0 rtl:pr-3 block">
+                {isRTL ? '// معرض صفحات الدراسة البصرية' : '// VISUAL STUDY GALLERY'}
               </span>
               <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-studio-fg">
-                {isRTL ? 'صور الفعالية والمحاكاة المباشرة' : 'Live Experience Photos'}
+                {isRTL ? 'معرض صفحات ومعاينات الدراسة الكاملة' : 'Complete Visual Study Gallery'}
               </h3>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {game.galleryImages.map((gallerySrc, idx) => (
-                <div key={gallerySrc} className="rounded-xl overflow-hidden border border-studio-border bg-studio-surface shadow-md hover:border-studio-accent/50 transition-colors">
+                <div key={gallerySrc} className="rounded-xl overflow-hidden border border-amber-900/40 bg-studio-surface shadow-md hover:border-amber-400/60 transition-colors">
                   <PaizoImage
                     src={gallerySrc}
-                    alt={isRTL ? `${name} صورة ${idx + 1}` : `${name} Photo ${idx + 1}`}
-                    fallbackTitle={isRTL ? `${name} صورة ${idx + 1}` : `${name} Photo ${idx + 1}`}
+                    alt={isRTL ? `${name} صفحة ${idx + 1}` : `${name} Page ${idx + 1}`}
+                    fallbackTitle={isRTL ? `${name} صفحة ${idx + 1}` : `${name} Page ${idx + 1}`}
                     aspectRatioClass="aspect-[16/10]"
-                    sizes="(max-width: 768px) 100vw, 300px"
+                    sizes="(max-width: 768px) 100vw, 350px"
                   />
                 </div>
               ))}
@@ -252,19 +267,19 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
           </div>
         )}
 
-        {/* Step-by-Step How To Play Section */}
+        {/* Step-by-Step Manual Section */}
         <div id="how-to-play" className="border-t border-studio-border pt-16 space-y-12">
           <div className="space-y-4 max-w-3xl">
             <span className="font-mono text-xs uppercase tracking-widest text-studio-accent border-l-2 border-studio-accent pl-3 rtl:border-l-0 rtl:border-r-2 rtl:pl-0 rtl:pr-3 block">
-              {isRTL ? '// دليل اللعب' : '// INSTRUCTION MANUAL'}
+              {isStudyGame ? (isRTL ? '// خطوات الاستفادة من الدراسة' : '// HOW TO STUDY') : (isRTL ? '// دليل اللعب' : '// INSTRUCTION MANUAL')}
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-studio-fg">
-              {t.paizo.howToPlay}
+              {isStudyGame ? (isRTL ? 'طريقة دراسة السفر' : 'How to Use This Study') : t.paizo.howToPlay}
             </h2>
             <p className="text-sm md:text-base text-studio-muted">
               {isRTL
-                ? 'اتبع تعليمات اللعب خطوة بخطوة للحصول على أفضل تجربة تفاعلية.'
-                : 'Follow these official step-by-step gameplay instructions for the best interactive experience.'}
+                ? 'اتبع الخطوات الموضحة للحصول على أقصى فائدة روحية وبصرية من هذه الدراسة.'
+                : 'Follow these step-by-step guidelines for an engaging and enriching study journey.'}
             </p>
           </div>
 
@@ -296,23 +311,23 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
           </div>
         </div>
 
-        {/* Previous & Next Game Navigation Controls */}
+        {/* Previous & Next Controls (Scoped strictly within active pool: general or study-games) */}
         <div className="border-t border-studio-border pt-16 space-y-6">
           <div className="font-mono text-xs text-studio-muted uppercase tracking-widest border-b border-studio-border/60 pb-3 flex items-center gap-2">
             <Layers className="w-4 h-4 text-studio-accent" />
-            <span>{isRTL ? 'التنقل بين ألعاب PAIZO' : 'PAIZO COLLECTION NAVIGATION'}</span>
+            <span>{isStudyGame ? (isRTL ? 'التنقل بين ألعاب الدراسات' : 'STUDY GAMES NAVIGATION') : (isRTL ? 'التنقل بين ألعاب PAIZO' : 'PAIZO COLLECTION NAVIGATION')}</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {/* Previous Game Button */}
+            {/* Previous Control */}
             <Link
-              href={`/paizo/games/${prevGame.slug}`}
+              href={isStudyGame ? `/paizo/study-games/${prevGame.slug}` : `/paizo/games/${prevGame.slug}`}
               className="group border border-studio-border bg-studio-surface p-6 rounded-2xl flex items-center justify-between hover:border-studio-accent/50 hover:bg-studio-surface/80 transition-all duration-300"
             >
               <div className="space-y-1">
                 <span className="font-mono text-xs text-studio-accent uppercase font-semibold flex items-center gap-2">
                   <BackIcon className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1 rtl:group-hover:translate-x-1" />
-                  <span>{t.paizo.previousGame}</span>
+                  <span>{prevLabel}</span>
                 </span>
                 <h4 className="text-lg font-bold text-studio-fg group-hover:text-studio-accent transition-colors">
                   {prevGameName}
@@ -320,14 +335,14 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
               </div>
             </Link>
 
-            {/* Next Game Button */}
+            {/* Next Control */}
             <Link
-              href={`/paizo/games/${nextGame.slug}`}
+              href={isStudyGame ? `/paizo/study-games/${nextGame.slug}` : `/paizo/games/${nextGame.slug}`}
               className="group border border-studio-border bg-studio-surface p-6 rounded-2xl flex items-center justify-between text-right rtl:text-left hover:border-studio-accent/50 hover:bg-studio-surface/80 transition-all duration-300"
             >
               <div className="space-y-1 flex-1">
                 <span className="font-mono text-xs text-studio-accent uppercase font-semibold flex items-center justify-end rtl:justify-start gap-2">
-                  <span>{t.paizo.nextGame}</span>
+                  <span>{nextLabel}</span>
                   <ForwardIcon className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
                 </span>
                 <h4 className="text-lg font-bold text-studio-fg group-hover:text-studio-accent transition-colors">
@@ -338,15 +353,15 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
           </div>
         </div>
 
-        {/* Related PAIZO Games */}
+        {/* Related Items Section */}
         <div className="border-t border-studio-border pt-16 space-y-8">
           <div className="flex items-center justify-between border-b border-studio-border/60 pb-3 font-mono text-xs">
             <span className="text-studio-fg font-bold uppercase tracking-wider flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-studio-accent" />
-              <span>{t.paizo.relatedGames}</span>
+              <span>{relatedSectionTitle}</span>
             </span>
-            <Link href="/paizo/games" className="text-studio-muted hover:text-studio-fg underline">
-              {t.paizo.exploreGames}
+            <Link href={backCategoryHref} className="text-studio-muted hover:text-studio-fg underline">
+              {isStudyGame ? t.paizo.exploreStudyGames : t.paizo.exploreGames}
             </Link>
           </div>
 
