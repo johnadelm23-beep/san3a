@@ -92,6 +92,26 @@ export interface TranslationStructure {
     digitalCommerce: string
     interactiveScreenshots: string
   }
+  paizo: {
+    tag: string
+    title: string
+    subtitle: string
+    brandDesc: string
+    discoverGame: string
+    exploreGames: string
+    aboutGame: string
+    howToPlay: string
+    gameInfo: string
+    playersLabel: string
+    durationLabel: string
+    typeLabel: string
+    difficultyLabel: string
+    backToGames: string
+    previousGame: string
+    nextGame: string
+    relatedGames: string
+    otherGames: string
+  }
   services: {
     tag: string
     title: string
@@ -242,6 +262,26 @@ export const translations: Record<Language, TranslationStructure> = {
       digitalCommerce: 'DIGITAL COMMERCE PLATFORM',
       interactiveScreenshots: 'App Screenshot Showcase — Swipe or Auto-Scroll',
     },
+    paizo: {
+      tag: '// SAN3A BRAND DISCIPLINE',
+      title: 'PAIZO Interactive Games',
+      subtitle: 'Interactive games, creative activities, group experiences, and engaging youth workshops engineered by SAN3A.',
+      brandDesc: 'PAIZO designs and builds original interactive games, collaborative group activities, and experiential workshops crafted for youth communities, retreats, and team gatherings.',
+      discoverGame: 'Discover Game',
+      exploreGames: 'Explore PAIZO Games',
+      aboutGame: 'About the Game',
+      howToPlay: 'How To Play',
+      gameInfo: 'Game Specifications',
+      playersLabel: 'Players',
+      durationLabel: 'Duration',
+      typeLabel: 'Type',
+      difficultyLabel: 'Difficulty',
+      backToGames: 'Back to PAIZO Games',
+      previousGame: 'Previous Game',
+      nextGame: 'Next Game',
+      relatedGames: 'Related Games',
+      otherGames: 'Explore More PAIZO Games',
+    },
     services: {
       tag: '// CORE CAPABILITIES',
       title: 'Our Services',
@@ -313,7 +353,7 @@ export const translations: Record<Language, TranslationStructure> = {
       titlePart1: 'نبني',
       titlePart2: 'حلولاً رقمية',
       titlePart3: 'صُنعت بإتقان.',
-      description: 'مواقع إلكترونية، تطبيقات موبايل، وتجارب بصرية صُممت وبُنيت بعناية واحترافية من استوديو صنعة.',
+      description: 'م مواقع إلكترونية، تطبيقات موبايل، وتجارب بصرية صُممت وبُنيت بعناية واحترافية من استوديو صنعة.',
       viewWork: 'استعرض أعمالنا',
       startProject: 'ابدأ مشروعك',
       brandSystem: '[ نظام صنعة البرمجي ]',
@@ -389,6 +429,26 @@ export const translations: Record<Language, TranslationStructure> = {
       webPlatform: 'منصة ويب حية',
       digitalCommerce: 'منصة تجارة رقمية',
       interactiveScreenshots: 'معرض شاشات التطبيق — اسحب أو تصفح تلقائياً',
+    },
+    paizo: {
+      tag: '// تخصص إبداعي من صنعة',
+      title: 'ألعاب PAIZO التفاعلية',
+      subtitle: 'ألعاب تفاعلية، أنشطة جماعية، وتجارب حية صممتها صنعة للمجتمعات والشباب.',
+      brandDesc: 'بيزو (PAIZO) تعتني بتصميم وبناء الألعاب التفاعلية المبتكرة، والأنشطة الجماعية التنافسية، والورش الإبداعية المخصصة للمجتمعات واللقاءات الشبابية.',
+      discoverGame: 'اكتشف اللعبة',
+      exploreGames: 'اكتشف ألعاب PAIZO',
+      aboutGame: 'عن اللعبة',
+      howToPlay: 'طريقة اللعب',
+      gameInfo: 'بطاقة معلومات اللعبة',
+      playersLabel: 'عدد اللاعبين',
+      durationLabel: 'المدة',
+      typeLabel: 'النوع',
+      difficultyLabel: 'مستوى الصعوبة',
+      backToGames: 'العودة إلى ألعاب PAIZO',
+      previousGame: 'اللعبة السابقة',
+      nextGame: 'اللعبة التالية',
+      relatedGames: 'ألعاب قد تهمك',
+      otherGames: 'استكشف ألعاباً وتجارب أخرى من PAIZO',
     },
     services: {
       tag: '// خدماتنا الأساسية',

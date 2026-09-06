@@ -3,6 +3,7 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { DataService } from '@/lib/services/dataService'
 import { ArrowRight, Check } from 'lucide-react'
+import PaizoSection from '@/components/paizo/PaizoSection'
 
 export const metadata = {
   title: 'Core Services — SAN3A',
@@ -116,6 +117,8 @@ export default async function ServicesPage() {
 
         </div>
       </section>
+
+      <PaizoSection />
 
       <Footer />
     </main>
