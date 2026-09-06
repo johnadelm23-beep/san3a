@@ -13,7 +13,11 @@ export const metadata = {
 export const revalidate = 0
 
 export default async function WorkPage() {
-  const publishedProjects = await DataService.getPublishedProjects()
+  const allProjects = await DataService.getPublishedProjects()
+  // Filter out placeholder projects (those with 421-byte placeholder images)
+  const invalidPlaceholders = ['/projects/ecommerce-platform.jpg', '/projects/medlab-system.jpg', '/projects/brand-identity.jpg']
+  const publishedProjects = allProjects.filter((p) => p.cover_image && !invalidPlaceholders.includes(p.cover_image))
+
 
   return (
     <main className="min-h-screen bg-studio-bg text-studio-fg relative font-sans">

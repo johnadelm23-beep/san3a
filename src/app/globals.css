@@ -96,3 +96,39 @@ body {
 .hover-underline:hover::after {
   width: 100%;
 }
+
+/* RTL Typography & Alignment */
+[dir="rtl"], .rtl-mode {
+  font-family: var(--font-cairo), 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+[dir="rtl"] .border-l-2, [dir="rtl"] .border-l {
+  border-left-width: 0;
+  border-right-width: 2px;
+}
+
+/* Marquee Auto-Scroll Animation */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-rtl {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+[dir="rtl"] .animate-marquee {
+  animation: marquee-rtl 25s linear infinite;
+}
+

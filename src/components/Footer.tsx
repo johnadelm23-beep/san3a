@@ -2,10 +2,15 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Phone, MessageSquare, ArrowUpRight } from 'lucide-react'
+import { Phone, MessageSquare, ArrowUpRight, ArrowUpLeft } from 'lucide-react'
 import { FacebookIcon } from '@/components/icons/FacebookIcon'
+import { useLanguage } from '@/context/LanguageContext'
 
 export default function Footer() {
+  const { t, isRTL } = useLanguage()
+
+  const ActionIcon = isRTL ? ArrowUpLeft : ArrowUpRight
+
   return (
     <footer className="bg-studio-bg border-t border-studio-border text-studio-muted py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -29,28 +34,28 @@ export default function Footer() {
             </Link>
 
             <p className="text-xs text-studio-muted leading-relaxed max-w-sm font-normal">
-              SAN3A is a two-person creative technology studio by John & George. We engineer web platforms, mobile applications, visual systems, and custom software.
+              {t.footer.tagline} — {isRTL ? 'استوديو تقني مستقل بقيادة جون وجورج لبناء منصات الويب وتطبيقات الموبايل والنظم البرمجية البصرية.' : 'An independent creative technology studio by John & George engineering web platforms, mobile applications, visual systems, and custom software.'}
             </p>
 
             <div className="font-mono text-[11px] uppercase text-studio-darkmuted tracking-wider">
-              SAN3A CREATIVE TECHNOLOGY // EST. 2026
+              {t.footer.location}
             </div>
           </div>
 
           {/* Col 2: Navigation Links (3 Cols) */}
           <div className="md:col-span-3 space-y-4">
             <span className="font-mono text-[11px] uppercase tracking-widest text-studio-fg block font-semibold">
-              NAVIGATION
+              {t.footer.quickLinks}
             </span>
             <ul className="space-y-2.5 text-xs font-mono">
               {[
-                { name: 'Work', href: '/work' },
-                { name: 'Services', href: '/services' },
-                { name: 'Offers', href: '/offers' },
-                { name: 'About', href: '/about' },
-                { name: 'Contact', href: '/contact' },
+                { name: t.nav.work, href: '/work' },
+                { name: t.nav.services, href: '/services' },
+                { name: t.nav.offers, href: '/offers' },
+                { name: t.nav.about, href: '/about' },
+                { name: t.nav.contact, href: '/contact' },
               ].map((item) => (
-                <li key={item.name}>
+                <li key={item.href}>
                   <Link
                     href={item.href}
                     className="hover:text-studio-fg transition-colors duration-200"
@@ -65,12 +70,12 @@ export default function Footer() {
           {/* Col 3: Direct Founders Contact & Facebook (4 Cols) */}
           <div className="md:col-span-4 space-y-6">
             <span className="font-mono text-[11px] uppercase tracking-widest text-studio-fg block font-semibold">
-              DIRECT CONTACT
+              {t.footer.contactTitle}
             </span>
 
             {/* John Contact */}
-            <div className="space-y-1.5 font-mono text-xs border-l-2 border-studio-accent pl-3">
-              <div className="text-studio-fg font-bold">JOHN</div>
+            <div className="space-y-1.5 font-mono text-xs border-l-2 border-studio-accent pl-3 rtl:border-l-0 rtl:border-r-2 rtl:pl-0 rtl:pr-3">
+              <div className="text-studio-fg font-bold">JOHN ADEL</div>
               <div className="flex flex-wrap items-center gap-4 text-studio-muted">
                 <a href="tel:01226806622" className="hover:text-studio-fg transition-colors flex items-center gap-1.5">
                   <Phone className="w-3.5 h-3.5 text-studio-accent" />
@@ -84,7 +89,7 @@ export default function Footer() {
             </div>
 
             {/* George Contact */}
-            <div className="space-y-1.5 font-mono text-xs border-l-2 border-studio-accent pl-3">
+            <div className="space-y-1.5 font-mono text-xs border-l-2 border-studio-accent pl-3 rtl:border-l-0 rtl:border-r-2 rtl:pl-0 rtl:pr-3">
               <div className="text-studio-fg font-bold">GEORGE</div>
               <div className="flex flex-wrap items-center gap-4 text-studio-muted">
                 <a href="tel:+201229518750" className="hover:text-studio-fg transition-colors flex items-center gap-1.5">
@@ -98,17 +103,17 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Facebook Social (ONLY Social Link) */}
+            {/* Facebook Social */}
             <div className="pt-2">
               <a
                 href="https://www.facebook.com/share/p/191qx2khJL/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center space-x-2 border border-studio-border bg-studio-surface px-4 py-2 text-xs font-mono text-studio-fg hover:border-studio-fg transition-all group"
+                className="inline-flex items-center gap-2 border border-studio-border bg-studio-surface px-4 py-2 text-xs font-mono text-studio-fg hover:border-studio-fg transition-all group"
               >
                 <FacebookIcon className="w-4 h-4 text-blue-500" />
                 <span>SAN3A Official Facebook</span>
-                <ArrowUpRight className="w-3.5 h-3.5 text-studio-muted group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                <ActionIcon className="w-3.5 h-3.5 text-studio-muted group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
             </div>
 
@@ -119,9 +124,9 @@ export default function Footer() {
         {/* Bottom Legal Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-studio-muted gap-4">
           <div>
-            © {new Date().getFullYear()} SAN3A. ALL RIGHTS RESERVED.
+            © {new Date().getFullYear()} SAN3A. {t.footer.allRightsReserved}
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center gap-4">
             <Link href="/admin" className="hover:text-studio-fg transition-colors">
               Admin Portal
             </Link>

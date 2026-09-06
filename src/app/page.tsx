@@ -1,6 +1,7 @@
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import Statement from '@/components/Statement'
+import TeamSection from '@/components/TeamSection'
 import SelectedWork from '@/components/SelectedWork'
 import ServicesPreview from '@/components/ServicesPreview'
 import FinalCTA from '@/components/FinalCTA'
@@ -12,6 +13,7 @@ export default function Home() {
       <Header />
       <Hero />
       <Statement />
+      <TeamSection />
       <SelectedWork />
       <ServicesPreview />
       <FinalCTA />

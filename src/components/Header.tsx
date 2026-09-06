@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { ArrowUpRight, Menu, X } from 'lucide-react'
+import { ArrowUpRight, ArrowUpLeft, Menu, X, Globe } from 'lucide-react'
+import { useLanguage } from '@/context/LanguageContext'
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
+  const { language, setLanguage, t, isRTL } = useLanguage()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,11 +30,17 @@ export default function Header() {
   }, [pathname])
 
   const navItems = [
-    { label: 'Work', href: '/work' },
-    { label: 'Services', href: '/services' },
-    { label: 'Offers', href: '/offers' },
-    { label: 'About', href: '/about' },
+    { label: t.nav.work, href: '/work' },
+    { label: t.nav.services, href: '/services' },
+    { label: t.nav.offers, href: '/offers' },
+    { label: t.nav.about, href: '/about' },
   ]
+
+  const toggleLanguage = () => {
+    setLanguage(language === 'en' ? 'ar' : 'en')
+  }
+
+  const ActionIcon = isRTL ? ArrowUpLeft : ArrowUpRight
 
   return (
     <>
@@ -62,17 +70,17 @@ export default function Header() {
               </span>
             </div>
             <span className="hidden sm:inline-block font-mono text-[10px] uppercase text-studio-muted border border-studio-border px-2 py-0.5 tracking-widest">
-              // STUDIO
+              {t.nav.tagline}
             </span>
           </Link>
 
           {/* Center: Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-10">
+          <nav className="hidden md:flex items-center space-x-8 rtl:space-x-reverse">
             {navItems.map((item) => {
               const isActive = pathname === item.href
               return (
                 <Link
-                  key={item.label}
+                  key={item.href}
                   href={item.href}
                   className={`text-xs uppercase tracking-widest font-medium transition-colors duration-200 hover-underline ${
                     isActive ? 'text-studio-fg font-bold' : 'text-studio-muted hover:text-studio-fg'
@@ -84,14 +92,25 @@ export default function Header() {
             })}
           </nav>
 
-          {/* Right: Action & Mobile Hamburger */}
-          <div className="flex items-center space-x-4">
+          {/* Right: Language Switcher, Action Button & Mobile Toggle */}
+          <div className="flex items-center gap-3 md:gap-4">
+            {/* Minimal & Professional Language Switcher Toggle */}
+            <button
+              onClick={toggleLanguage}
+              className="flex items-center gap-1.5 border border-studio-border hover:border-studio-fg px-2.5 py-1.5 text-[11px] font-mono tracking-wider text-studio-fg hover:bg-studio-surface transition-all rounded-none"
+              title={language === 'en' ? 'التحويل إلى العربية' : 'Switch to English'}
+              aria-label="Switch Language"
+            >
+              <Globe className="w-3.5 h-3.5 text-studio-accent" />
+              <span>{language === 'en' ? 'EN | العربية' : 'العربية | EN'}</span>
+            </button>
+
             <Link
               href="/contact"
-              className="hidden sm:flex items-center space-x-2 text-xs uppercase tracking-widest font-semibold border border-studio-border hover:border-studio-fg px-4 py-2.5 text-studio-fg hover:bg-studio-fg hover:text-studio-bg transition-all duration-300"
+              className="hidden sm:flex items-center gap-2 text-xs uppercase tracking-widest font-semibold border border-studio-border hover:border-studio-fg px-4 py-2 text-studio-fg hover:bg-studio-fg hover:text-studio-bg transition-all duration-300"
             >
-              <span>Start a Project</span>
-              <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <span>{t.nav.startProject}</span>
+              <ActionIcon className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
 
             {/* Mobile Hamburger Toggle */}
@@ -111,13 +130,23 @@ export default function Header() {
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-30 bg-[#080808]/98 backdrop-blur-xl md:hidden pt-24 px-6 pb-12 flex flex-col justify-between border-b border-studio-border font-sans">
           <div className="space-y-8">
-            <div className="flex items-center gap-3 border-b border-studio-border pb-4">
-              <div className="relative w-7 h-7 border border-studio-border overflow-hidden">
-                <Image src="/projects/san3a.jpeg" alt="SAN3A" fill sizes="28px" className="object-cover" />
+            <div className="flex items-center justify-between border-b border-studio-border pb-4">
+              <div className="flex items-center gap-3">
+                <div className="relative w-7 h-7 border border-studio-border overflow-hidden">
+                  <Image src="/projects/san3a.jpeg" alt="SAN3A" fill sizes="28px" className="object-cover" />
+                </div>
+                <span className="font-mono text-xs uppercase tracking-widest text-studio-fg font-bold">
+                  SAN3A
+                </span>
               </div>
-              <span className="font-mono text-xs uppercase tracking-widest text-studio-fg font-bold">
-                SAN3A NAVIGATION
-              </span>
+              
+              <button
+                onClick={toggleLanguage}
+                className="flex items-center gap-1 border border-studio-border px-3 py-1.5 text-xs font-mono text-studio-fg bg-studio-surface"
+              >
+                <Globe className="w-3.5 h-3.5 text-studio-accent" />
+                <span>{language === 'en' ? 'العربية' : 'English'}</span>
+              </button>
             </div>
 
             <nav className="flex flex-col space-y-6">
@@ -125,11 +154,11 @@ export default function Header() {
                 href="/"
                 className="text-2xl font-bold uppercase tracking-wider text-studio-fg hover:text-studio-accent transition-colors"
               >
-                Home
+                {isRTL ? 'الرئيسية' : 'Home'}
               </Link>
               {navItems.map((item) => (
                 <Link
-                  key={item.label}
+                  key={item.href}
                   href={item.href}
                   className="text-2xl font-bold uppercase tracking-wider text-studio-fg hover:text-studio-accent transition-colors"
                 >
@@ -144,8 +173,8 @@ export default function Header() {
               href="/contact"
               className="flex items-center justify-between w-full bg-studio-fg text-studio-bg px-6 py-4 text-xs uppercase tracking-widest font-extrabold"
             >
-              <span>Start a Project</span>
-              <ArrowUpRight className="w-4 h-4" />
+              <span>{t.nav.startProject}</span>
+              <ActionIcon className="w-4 h-4" />
             </Link>
             <div className="font-mono text-[10px] text-studio-muted uppercase tracking-widest">
               SAN3A CREATIVE TECHNOLOGY STUDIO

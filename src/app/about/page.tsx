@@ -3,10 +3,10 @@ import Footer from '@/components/Footer'
 import Image from 'next/image'
 import Link from 'next/link'
 import { DataService } from '@/lib/services/dataService'
-import { ArrowRight, Phone, MessageSquare, Terminal, Palette } from 'lucide-react'
+import { ArrowRight, Phone, MessageSquare, Code, Palette } from 'lucide-react'
 
 export const metadata = {
-  title: 'About SAN3A — John & George',
+  title: 'About SAN3A — John & George | من نحن استوديو صنعة',
   description: 'Learn about SAN3A: an independent creative technology studio led by John and George.',
 }
 
@@ -64,7 +64,7 @@ export default async function AboutPage() {
             </div>
           </div>
 
-          {/* Founders Section */}
+          {/* Founders Section with Real Photos */}
           <div className="space-y-12 mb-20">
             <div className="flex justify-between items-end border-b border-studio-border pb-6">
               <div>
@@ -80,33 +80,43 @@ export default async function AboutPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {activeTeam.map((member, index) => {
-                const IconComponent = index === 0 ? Terminal : Palette
+                const IconComponent = index === 0 ? Code : Palette
+                const photoPath = member.photo || (index === 0 ? '/projects/JohnPhoto.jpeg' : '/projects/george_photo.jpg')
                 const displayPhone = member.phone || (member.name.toLowerCase().includes('john') ? '01226806622' : '+20 12 29518750')
                 const displayWa = member.whatsapp || (member.name.toLowerCase().includes('john') ? 'https://wa.me/201226806622' : 'https://wa.me/201229518750')
 
                 return (
-                  <div key={member.id} className="border border-studio-border bg-studio-surface p-8 space-y-6 font-mono text-xs flex flex-col justify-between">
+                  <div key={member.id} className="border border-studio-border bg-studio-surface p-8 space-y-6 flex flex-col justify-between">
                     <div className="space-y-6">
                       <div className="flex items-center space-x-4 border-b border-studio-border pb-6">
-                        <div className="w-12 h-12 bg-studio-bg border border-studio-border flex items-center justify-center text-studio-accent font-bold">
-                          <IconComponent className="w-5 h-5" />
+                        <div className="relative w-20 h-20 shrink-0 border border-studio-border overflow-hidden bg-black">
+                          <Image
+                            src={photoPath}
+                            alt={member.name}
+                            fill
+                            sizes="80px"
+                            className="object-cover"
+                          />
                         </div>
                         <div>
-                          <h3 className="text-xl font-bold tracking-tight text-studio-fg font-sans uppercase">
-                            {member.name}
-                          </h3>
-                          <span className="text-studio-accent uppercase">
+                          <div className="flex items-center gap-2">
+                            <h3 className="text-xl font-bold tracking-tight text-studio-fg font-sans uppercase">
+                              {member.name}
+                            </h3>
+                            <IconComponent className="w-4 h-4 text-studio-accent" />
+                          </div>
+                          <span className="text-studio-accent uppercase text-xs font-mono">
                             {member.role}
                           </span>
                         </div>
                       </div>
 
-                      <p className="text-xs text-studio-muted leading-relaxed font-normal font-sans">
+                      <p className="text-sm text-studio-muted leading-relaxed font-normal">
                         {member.bio}
                       </p>
                     </div>
 
-                    <div className="space-y-2 pt-4 border-t border-studio-border text-xs">
+                    <div className="space-y-2 pt-4 border-t border-studio-border text-xs font-mono">
                       {displayPhone && (
                         <a href={`tel:${displayPhone.replace(/\s+/g, '')}`} className="flex items-center justify-between p-2.5 border border-studio-border bg-studio-bg hover:border-studio-fg transition-colors">
                           <span className="flex items-center gap-2 text-studio-fg font-bold">
