@@ -32,6 +32,7 @@ export default function Header() {
   const navItems = [
     { label: t.nav.work, href: '/work' },
     { label: t.nav.services, href: '/services' },
+    { label: t.nav.paizo, href: '/paizo' },
     { label: t.nav.offers, href: '/offers' },
     { label: t.nav.about, href: '/about' },
   ]

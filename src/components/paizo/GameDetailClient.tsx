@@ -41,7 +41,7 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
               : 'The requested PAIZO game could not be found in our collection.'}
           </p>
           <Link
-            href="/paizo"
+            href="/paizo/games"
             className="inline-flex items-center gap-2 bg-studio-fg text-studio-bg px-6 py-3 font-mono text-xs uppercase font-bold rounded-lg"
           >
             <span>{t.paizo.backToGames}</span>
@@ -73,45 +73,57 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
   return (
     <article className="pt-32 pb-24 md:pt-44 md:pb-36 border-b border-studio-border">
       <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-16">
-        {/* Top Breadcrumb Navigation Bar */}
-        <div className="flex items-center justify-between border-b border-studio-border pb-6 font-mono text-xs">
-          <Link
-            href="/paizo"
-            className="group inline-flex items-center gap-2.5 text-studio-muted hover:text-studio-fg transition-colors"
-          >
-            <BackIcon className="w-4 h-4 transition-transform group-hover:-translate-x-1 rtl:group-hover:translate-x-1" />
-            <span>{t.paizo.backToGames}</span>
-          </Link>
+        {/* Top Breadcrumb Navigation Bar: San3a → PAIZO → Games → Game Name */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-studio-border pb-6 font-mono text-xs gap-4">
+          <div className="flex items-center gap-2 text-studio-muted flex-wrap">
+            <Link href="/" className="hover:text-studio-fg transition-colors">
+              San3a
+            </Link>
+            <span>/</span>
+            <Link href="/paizo" className="hover:text-studio-fg transition-colors">
+              PAIZO
+            </Link>
+            <span>/</span>
+            <Link href="/paizo/games" className="hover:text-studio-fg transition-colors">
+              {isRTL ? 'الألعاب' : 'Games'}
+            </Link>
+            <span>/</span>
+            <span className="text-studio-fg font-bold">{name}</span>
+          </div>
 
           <div className="flex items-center gap-3">
+            <Link
+              href="/paizo/games"
+              className="group inline-flex items-center gap-2 text-studio-muted hover:text-studio-fg transition-colors mr-2 rtl:mr-0 rtl:ml-2"
+            >
+              <BackIcon className="w-4 h-4 transition-transform group-hover:-translate-x-1 rtl:group-hover:translate-x-1" />
+              <span>{t.paizo.backToGames}</span>
+            </Link>
             <div className="relative w-6 h-6 rounded-md overflow-hidden bg-studio-surface border border-studio-border shrink-0">
               <Image src={PAIZO_LOGO_URL} alt="PAIZO Logo" fill sizes="24px" className="object-contain p-0.5" />
             </div>
-            <span className="text-studio-fg font-bold uppercase tracking-widest text-[11px]">
-              PAIZO GAMES
-            </span>
           </div>
         </div>
 
-        {/* Game Hero Grid */}
+        {/* Game Hero Grid (Desktop ~60-70% content width visual, Mobile 90-100%) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          {/* Left Hero Image Showcase (7 Cols) */}
+          {/* Left Hero Image Showcase (7 Cols = ~60% Width Desktop) */}
           <div className="lg:col-span-7 space-y-4">
-            <div className="rounded-2xl overflow-hidden shadow-2xl border border-studio-border bg-studio-surface p-2">
+            <div className="rounded-2xl overflow-hidden shadow-2xl border border-studio-border bg-studio-surface p-2 sm:p-3">
               <PaizoImage
                 src={game.image}
                 alt={`PAIZO ${name}`}
                 fallbackTitle={name}
                 aspectRatioClass="aspect-[16/10]"
                 priority
-                sizes="(max-width: 1024px) 100vw, 700px"
-                className="rounded-xl"
+                sizes="(max-width: 1024px) 100vw, 800px"
+                className="rounded-xl object-contain bg-black/40"
               />
             </div>
 
             <div className="flex items-center justify-between font-mono text-[11px] text-studio-muted px-1">
               <span>{isRTL ? `أرشيف ألعاب PAIZO التفاعلي // ${game.id.toUpperCase()}` : `PAIZO INTERACTIVE ARCHIVE // ${game.id.toUpperCase()}`}</span>
-              <span>{isRTL ? 'صورة عالية الجودة ممررة عبر Cloudinary' : 'AUTHENTIC CLOUDINARY ASSET'}</span>
+              <span>{isRTL ? 'صورة معتمدة عبر Cloudinary' : 'PAIZO CERTIFIED ASSET'}</span>
             </div>
           </div>
 
@@ -212,21 +224,21 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
           </div>
         </div>
 
-        {/* Additional Gallery Images (If available, like Live It) */}
+        {/* Live Experience Photos Gallery (e.g. for Live It or games with extra photos) */}
         {game.galleryImages && game.galleryImages.length > 0 && (
           <div className="border-t border-studio-border pt-16 space-y-8">
             <div className="space-y-2">
               <span className="font-mono text-xs uppercase tracking-widest text-studio-accent border-l-2 border-studio-accent pl-3 rtl:border-l-0 rtl:border-r-2 rtl:pl-0 rtl:pr-3 block">
-                {isRTL ? '// معرض الصور' : '// VISUAL GALLERY'}
+                {isRTL ? '// معرض الصور التفاعلي' : '// VISUAL GALLERY'}
               </span>
               <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-studio-fg">
-                {isRTL ? 'صور الفعالية المباشرة' : 'Live Experience Photos'}
+                {isRTL ? 'صور الفعالية والمحاكاة المباشرة' : 'Live Experience Photos'}
               </h3>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {game.galleryImages.map((gallerySrc, idx) => (
-                <div key={gallerySrc} className="rounded-xl overflow-hidden border border-studio-border bg-studio-surface shadow-md">
+                <div key={gallerySrc} className="rounded-xl overflow-hidden border border-studio-border bg-studio-surface shadow-md hover:border-studio-accent/50 transition-colors">
                   <PaizoImage
                     src={gallerySrc}
                     alt={isRTL ? `${name} صورة ${idx + 1}` : `${name} Photo ${idx + 1}`}
@@ -333,7 +345,7 @@ export default function GameDetailClient({ slug }: GameDetailClientProps) {
               <Sparkles className="w-4 h-4 text-studio-accent" />
               <span>{t.paizo.relatedGames}</span>
             </span>
-            <Link href="/paizo" className="text-studio-muted hover:text-studio-fg underline">
+            <Link href="/paizo/games" className="text-studio-muted hover:text-studio-fg underline">
               {t.paizo.exploreGames}
             </Link>
           </div>

@@ -51,6 +51,7 @@ export default function Footer() {
               {[
                 { name: t.nav.work, href: '/work' },
                 { name: t.nav.services, href: '/services' },
+                { name: t.nav.paizo, href: '/paizo' },
                 { name: t.nav.offers, href: '/offers' },
                 { name: t.nav.about, href: '/about' },
                 { name: t.nav.contact, href: '/contact' },

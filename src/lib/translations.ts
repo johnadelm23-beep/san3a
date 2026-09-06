@@ -4,6 +4,7 @@ export interface TranslationStructure {
   nav: {
     work: string
     services: string
+    paizo: string
     offers: string
     about: string
     contact: string
@@ -174,6 +175,7 @@ export const translations: Record<Language, TranslationStructure> = {
     nav: {
       work: 'Work',
       services: 'Services',
+      paizo: 'PAIZO',
       offers: 'Offers',
       about: 'About',
       contact: 'Contact',
@@ -342,6 +344,7 @@ export const translations: Record<Language, TranslationStructure> = {
     nav: {
       work: 'أعمالنا',
       services: 'خدماتنا',
+      paizo: 'بيزو (PAIZO)',
       offers: 'العروض',
       about: 'من نحن',
       contact: 'تواصل معنا',

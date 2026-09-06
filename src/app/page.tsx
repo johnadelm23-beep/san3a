@@ -4,7 +4,7 @@ import Statement from '@/components/Statement'
 import TeamSection from '@/components/TeamSection'
 import SelectedWork from '@/components/SelectedWork'
 import ServicesPreview from '@/components/ServicesPreview'
-import PaizoSection from '@/components/paizo/PaizoSection'
+import PaizoHomepagePreview from '@/components/paizo/PaizoHomepagePreview'
 import FinalCTA from '@/components/FinalCTA'
 import Footer from '@/components/Footer'
 
@@ -17,7 +17,7 @@ export default function Home() {
       <TeamSection />
       <SelectedWork />
       <ServicesPreview />
-      <PaizoSection />
+      <PaizoHomepagePreview />
       <FinalCTA />
       <Footer />
     </main>

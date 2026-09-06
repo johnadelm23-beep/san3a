@@ -108,7 +108,7 @@ export default function PaizoSection() {
           </div>
 
           <Link
-            href="/paizo"
+            href="/paizo/games"
             className="group inline-flex items-center gap-3 bg-studio-fg text-studio-bg px-8 py-4 text-xs uppercase tracking-widest font-extrabold rounded-xl shrink-0 hover:bg-transparent hover:text-studio-fg border border-studio-fg transition-all duration-300 font-mono"
           >
             <span>{t.paizo.exploreGames}</span>
